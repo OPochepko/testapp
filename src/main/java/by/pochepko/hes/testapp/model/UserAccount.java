@@ -3,28 +3,33 @@ package by.pochepko.hes.testapp.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
 public class UserAccount {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    @NotNull
-    @Size(max = 16, min = 3)
+    private long id;
+
+    public UserAccount() {
+    }
+
+    public UserAccount(long id, String username, String password, String firstName, String lastName, Role role, Status status, LocalDateTime createdAt) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
+
     private String username;
-    @NotNull
     private String password;
-    @NotNull
-    @Size(max = 16, min = 1)
     private String firstName;
-    @NotNull
-    @Size(max = 16, min = 1)
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -33,15 +38,12 @@ public class UserAccount {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public UserAccount() {
-    }
-
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -103,4 +105,24 @@ public class UserAccount {
     public enum Role {USER, ADMIN}
 
     public enum Status {ACTIVE, INACTIVE}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserAccount)) return false;
+        UserAccount that = (UserAccount) o;
+        return
+                com.google.common.base.Objects.equal(username, that.username) &&
+                        com.google.common.base.Objects.equal(password, that.password) &&
+                        com.google.common.base.Objects.equal(firstName, that.firstName) &&
+                        com.google.common.base.Objects.equal(lastName, that.lastName) &&
+                        role == that.role &&
+                        status == that.status &&
+                        com.google.common.base.Objects.equal(createdAt, that.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return com.google.common.base.Objects.hashCode(username, password, firstName, lastName, role, status, createdAt);
+    }
 }
