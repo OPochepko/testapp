@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id "org.flywaydb.flyway" version "6.2.2"
+
 }
 
 group = 'by.pochepko.hes'
@@ -24,7 +26,12 @@ dependencies {
     }
     testImplementation 'org.springframework.security:spring-security-test'
 }
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/hes_test'
+    user = 'postgres'
+    password = '3211385'
 
+}
 test {
     useJUnitPlatform()
 }
