@@ -31,7 +31,7 @@ public class CreatedUserAccountDtoValidator implements Validator {
         }
 
         if (!user.getPassword().matches("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{3,16})$")) {
-            errors.rejectValue("password", "password.validation", "Should be 3 to 16 characters and contain only letters or numerals");
+            errors.rejectValue("password", "password.validation");
         }
 
         if (user.getFirstName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("[a-zA-Z]+\\.?")) {
