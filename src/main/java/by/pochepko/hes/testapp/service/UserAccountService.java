@@ -1,9 +1,11 @@
 package by.pochepko.hes.testapp.service;
 
 import by.pochepko.hes.testapp.dto.UserAccountDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface UserAccountService {
     List<UserAccountDto> getUserAccountList();
 

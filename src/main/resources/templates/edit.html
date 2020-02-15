@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+<form action="#" method="post" th:action="@{/user/{id}/edit (id=${user.id})}" th:object="${user}">
+    <label for="username">Username</label>
+    <input id="username" placeholder="Username" th:field="*{username}" type="text">
+    <label for="firstName">First name</label>
+    <input id="firstName" placeholder="First name" th:field="*{firstName}" type="text">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" placeholder="Last Name" th:field="*{lastName}" type="text">
+    <label for="role">Role</label>
+    <select id="role" th:field="*{role}" type="text">
+        <option th:each="userrole : ${roles}" th:text="${userrole}" th:value="${userrole}"></option>
+    </select>
+    <label for="status">Status</label>
+    <select id="status" th:field="*{status}" type="text">
+        <option th:each="userstatus : ${statuses}" th:text="${userstatus}" th:value="${userstatus}"></option>
+    </select>
+    <input type="submit" value="Save">
+</form>
+</body>
+</html>

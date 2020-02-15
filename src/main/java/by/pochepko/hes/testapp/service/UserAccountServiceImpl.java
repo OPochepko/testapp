@@ -5,12 +5,14 @@ import by.pochepko.hes.testapp.model.UserAccount;
 import by.pochepko.hes.testapp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Service
 @Transactional
 public class UserAccountServiceImpl implements UserAccountService {
     public UserAccountServiceImpl(UserAccountDtoMapper userAccountDtoMapper) {

@@ -23,9 +23,6 @@ public class CreatedUserAccountDtoValidator implements Validator {
         UserAccountDto user = (UserAccountDto) target;
 
 
-        if (user.getId() != 0l) {
-            errors.rejectValue("id", "value.notnull");
-        }
         if (!user.getUsername().matches("^[a-zA-Z]{3,16}$")) {
             errors.rejectValue("username", "username.validation");
         }
@@ -34,11 +31,11 @@ public class CreatedUserAccountDtoValidator implements Validator {
             errors.rejectValue("password", "password.validation");
         }
 
-        if (user.getFirstName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("[a-zA-Z]+\\.?")) {
+        if (user.getFirstName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("^[a-zA-Z]{1,16}$")) {
             errors.rejectValue("firstName", "firstName.validation");
         }
 
-        if (user.getLastName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("[a-zA-Z]+\\.?")) {
+        if (user.getLastName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("^[a-zA-Z]{1,16}$")) {
             errors.rejectValue("LastName", "lastName.validation");
         }
 
@@ -57,6 +54,4 @@ public class CreatedUserAccountDtoValidator implements Validator {
 
     }
 
-    public void validateUsername(Object target, Errors errors) {
-    }
 }
