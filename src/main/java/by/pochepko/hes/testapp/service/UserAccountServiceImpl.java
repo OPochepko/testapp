@@ -13,7 +13,10 @@ import java.util.stream.StreamSupport;
 
 @Transactional
 public class UserAccountServiceImpl implements UserAccountService {
-    @Autowired
+    public UserAccountServiceImpl(UserAccountDtoMapper userAccountDtoMapper) {
+        this.userAccountDtoMapper = userAccountDtoMapper;
+    }
+
     private UserAccountDtoMapper userAccountDtoMapper;
 
     @Autowired
@@ -34,8 +37,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccountDto createUser(UserAccountDto userAccount) {
         String encodedpassword = passwordEncoder.encode(userAccount.getPassword());
         userAccount.setPassword(encodedpassword);
-        return userAccountDtoMapper.modelToDto(userAccountRepository
-                .save(userAccountDtoMapper.dtoToModel(userAccount)));
+        UserAccount createdUser = userAccountRepository.save(userAccountDtoMapper.dtoToModel(userAccount));
+        createdUser.setPassword("");
+        return userAccountDtoMapper.modelToDto(createdUser);
     }
 
     @Override
