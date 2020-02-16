@@ -4,6 +4,7 @@ import by.pochepko.hes.testapp.dto.UserAccountDto;
 import by.pochepko.hes.testapp.model.UserAccount;
 import by.pochepko.hes.testapp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +16,6 @@ import java.util.stream.StreamSupport;
 @Service
 @Transactional
 public class UserAccountServiceImpl implements UserAccountService {
-    public UserAccountServiceImpl(UserAccountDtoMapper userAccountDtoMapper) {
-        this.userAccountDtoMapper = userAccountDtoMapper;
-    }
 
     private UserAccountDtoMapper userAccountDtoMapper;
 
@@ -27,10 +25,13 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public UserAccountServiceImpl(UserAccountDtoMapper userAccountDtoMapper) {
+        this.userAccountDtoMapper = userAccountDtoMapper;
+    }
+
     @Override
     public List<UserAccountDto> getUserAccountList() {
         return StreamSupport.stream(userAccountRepository.findAll().spliterator(), true)
-                .peek(r -> r.setPassword(""))
                 .map(userAccountDtoMapper::modelToDto)
                 .collect(Collectors.toList());
     }
@@ -60,6 +61,18 @@ public class UserAccountServiceImpl implements UserAccountService {
         userAccount.setRole(UserAccount.Role.valueOf(userAccountDto.getRole()));
         userAccount.setStatus(UserAccount.Status.valueOf(userAccountDto.getStatus()));
         userAccountRepository.save(userAccount);
+    }
+
+    @Override
+    public List<UserAccountDto> findPaginated(Pageable pageable) {
+        return userAccountRepository.findAll(pageable).getContent().stream()
+                .map(userAccountDtoMapper::modelToDto)
+                .collect(Collectors.toList())
+                ;
+    }
+
+    public int getTotalPages(Pageable pageable) {
+        return userAccountRepository.findAll(pageable).getTotalPages();
     }
 
 }
