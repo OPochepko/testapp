@@ -2,9 +2,9 @@ package by.pochepko.hes.testapp.controller;
 
 import by.pochepko.hes.testapp.dto.UserAccountDto;
 import by.pochepko.hes.testapp.model.UserAccount;
+import by.pochepko.hes.testapp.service.CreatedUserAccountDtoValidator;
 import by.pochepko.hes.testapp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,10 +25,8 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
-
-    @Qualifier("createdUserAccountDtoValidator")
     @Autowired
-    private Validator createdUserValidator;
+    private CreatedUserAccountDtoValidator createdUserValidator;
 
     @ModelAttribute(name = "authority")
     public String getAuthority() {
@@ -76,15 +73,14 @@ public class UserAccountController {
 
     @GetMapping(value = "/new")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String createUser(@Valid @ModelAttribute final UserAccountDto user, final Model model, final BindingResult bindingResult) {
+    public String createUser(@Valid @ModelAttribute final UserAccountDto user) {
         return "new";
     }
 
 
     @PostMapping(value = "/new")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-
-    public String createUserAccount(@Valid @ModelAttribute final UserAccountDto user, final BindingResult bindingResult, final Model model) {
+    public String createUserAccount(@Valid @ModelAttribute final UserAccountDto user, final BindingResult bindingResult) {
 
         createdUserValidator.validate(user, bindingResult);
 
@@ -99,7 +95,6 @@ public class UserAccountController {
 
     @GetMapping(value = "/{id}/edit")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-
     public String editUser(@PathVariable long id, final Model model) {
         model.addAttribute("user", userAccountService.getUserAccountById(id));
 
@@ -108,7 +103,6 @@ public class UserAccountController {
 
     @PostMapping(value = "/{id}/edit")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-
     public String updateUserAccount(UserAccountDto updatedUserAccountDto, @PathVariable long id, Model model) {
         model.addAttribute("user", updatedUserAccountDto);
 

@@ -38,10 +38,6 @@
     </div>
     <p th:if="${authority == 'ADMIN'}"><a href="/user/new">Add a new user</a></p>
 
-    <ul>
-        <li th:text="${authority}">Input is incorrect</li>
-    </ul>
-
     <a th:href="@{/user(page=${pageRequest.pageNumber + 2})}" th:if="${pageRequest.pageNumber < lastPage}">Next</a>
     <a th:href="@{/user(page=${pageRequest.pageNumber})}" th:if="${pageRequest.pageNumber > 0}">Next</a>
 
