@@ -1,5 +1,6 @@
 package by.pochepko.hes.testapp.model;
 
+import com.google.common.base.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -112,17 +113,17 @@ public class UserAccount {
         if (!(o instanceof UserAccount)) return false;
         UserAccount that = (UserAccount) o;
         return
-                com.google.common.base.Objects.equal(username, that.username) &&
-                        com.google.common.base.Objects.equal(password, that.password) &&
-                        com.google.common.base.Objects.equal(firstName, that.firstName) &&
-                        com.google.common.base.Objects.equal(lastName, that.lastName) &&
+                Objects.equal(username, that.username) &&
+                        Objects.equal(password, that.password) &&
+                        Objects.equal(firstName, that.firstName) &&
+                        Objects.equal(lastName, that.lastName) &&
                         role == that.role &&
                         status == that.status &&
-                        com.google.common.base.Objects.equal(createdAt, that.createdAt);
+                        Objects.equal(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return com.google.common.base.Objects.hashCode(username, password, firstName, lastName, role, status, createdAt);
+        return Objects.hashCode(username, password, firstName, lastName, role, status, createdAt);
     }
 }

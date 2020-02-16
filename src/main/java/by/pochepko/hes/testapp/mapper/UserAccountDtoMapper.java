@@ -1,4 +1,4 @@
-package by.pochepko.hes.testapp.service;
+package by.pochepko.hes.testapp.mapper;
 
 import by.pochepko.hes.testapp.dto.UserAccountDto;
 import by.pochepko.hes.testapp.model.UserAccount;

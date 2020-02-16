@@ -51,7 +51,7 @@ public class UserAccountController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
-    public String getUsersList(
+    public String getUserAccountsList(
             @RequestParam(required = false) Optional<Integer> page,
             Model model) {
         PageRequest pageRequest = PageRequest.of(page.orElse(1) - 1, 2);
@@ -66,7 +66,7 @@ public class UserAccountController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
-    public String getUserAccountById(@PathVariable final long id, final Model model) {
+    public String getUserAccountDetails(@PathVariable final long id, final Model model) {
         model.addAttribute("user", userAccountService.getUserAccountById(id));
         return "view";
     }

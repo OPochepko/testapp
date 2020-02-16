@@ -1,6 +1,7 @@
 package by.pochepko.hes.testapp.service;
 
 import by.pochepko.hes.testapp.dto.UserAccountDto;
+import by.pochepko.hes.testapp.mapper.UserAccountDtoMapper;
 import by.pochepko.hes.testapp.model.UserAccount;
 import by.pochepko.hes.testapp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,12 @@ public class UserAccountServiceImpl implements UserAccountService {
         String encodedpassword = passwordEncoder.encode(userAccount.getPassword());
         userAccount.setPassword(encodedpassword);
         UserAccount createdUser = userAccountRepository.save(userAccountDtoMapper.dtoToModel(userAccount));
-        createdUser.setPassword("");
         return userAccountDtoMapper.modelToDto(createdUser);
     }
 
     @Override
     public UserAccountDto getUserAccountById(long id) {
         UserAccount userAccount = userAccountRepository.findById(id).get();
-        userAccount.setPassword("");
 
         return userAccountDtoMapper.modelToDto(userAccount);
     }
@@ -56,6 +55,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public void updateUserAccount(UserAccountDto userAccountDto, long id) {
         UserAccount userAccount = userAccountRepository.findById(id).get();
+        userAccount.setUsername(userAccountDto.getUsername());
         userAccount.setFirstName(userAccountDto.getFirstName());
         userAccount.setLastName(userAccountDto.getLastName());
         userAccount.setRole(UserAccount.Role.valueOf(userAccountDto.getRole()));
