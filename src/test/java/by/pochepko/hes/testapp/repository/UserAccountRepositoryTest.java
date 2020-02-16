@@ -3,6 +3,7 @@ package by.pochepko.hes.testapp.repository;
 import by.pochepko.hes.testapp.TestappApplication;
 import by.pochepko.hes.testapp.model.UserAccount;
 import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,12 @@ class UserAccountRepositoryTest {
         flyway.clean();
         flyway.migrate();
     }
-//    @AfterEach
-//    public void finish(){
-//        flyway.clean();
-//        flyway.migrate();
-//    }
+
+    @AfterEach
+    public void finish() {
+        flyway.clean();
+        flyway.migrate();
+    }
 
 
     @Test
