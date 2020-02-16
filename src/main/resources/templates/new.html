@@ -7,7 +7,7 @@
 <body>
 <form action="#" method="post" th:action="@{/user/new}" th:object="${userAccountDto}">
     <ul>
-        <li th:text="${#fields.allErrors()}">Input is incorrect</li>
+        <li th:if="${#fields.hasErrors()}" th:text="${#fields.allErrors()}">Input is incorrect</li>
     </ul>
     <label for="username">Username</label>
     <input id="username" placeholder="Username" th:field="*{username}" type="text"/>

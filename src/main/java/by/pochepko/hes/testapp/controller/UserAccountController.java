@@ -80,14 +80,14 @@ public class UserAccountController {
 
     @PostMapping(value = "/new")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-    public String createUserAccount(@Valid @ModelAttribute final UserAccountDto user, final BindingResult bindingResult) {
+    public String createUserAccount(@Valid @ModelAttribute final UserAccountDto user, final BindingResult bindingResult, Model model) {
 
         createdUserValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "new";
         }
-
+        model.addAttribute("pageRequest", PageRequest.of(0, 2));
         userAccountService.createUser(user);
         return "user";
 
