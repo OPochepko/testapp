@@ -33,9 +33,7 @@ public class UserAccountController {
 
     @ModelAttribute(name = "authority")
     public String getAuthority() {
-        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().stream()
-                .map(r -> r.getAuthority())
-                .findAny().get();
+        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().toArray()[0].toString();
     }
 
 
