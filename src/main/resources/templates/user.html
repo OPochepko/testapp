@@ -19,7 +19,7 @@
                 <th>Status</th>
                 <th>Created At</th>
                 <th>View</th>
-                <th>Edit</th>
+                <th th:if="${authority == 'ADMIN'}">Edit</th>
             </tr>
             </thead>
             <tbody>
@@ -31,13 +31,19 @@
                 <td th:text="${user.status}"></td>
                 <td th:text="${user.createdAt}"></td>
                 <td><a th:href="@{user/{id}(id=${user.id})}">View</a></td>
-                <td><a th:href="@{user/{id}/edit(id=${user.id})}">Edit</a></td>
+                <td th:if="${authority == 'ADMIN'}"><a th:href="@{user/{id}/edit(id=${user.id})}">Edit</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/user/new">Add a new user</a></p>
+    <p th:if="${authority == 'ADMIN'}"><a href="/user/new">Add a new user</a></p>
 
+    <ul>
+        <li th:text="${authority}">Input is incorrect</li>
+    </ul>
+
+    <a th:href="@{/user(page=${pageRequest.pageNumber + 2})}" th:if="${pageRequest.pageNumber < lastPage}">Next</a>
+    <a th:href="@{/user(page=${pageRequest.pageNumber})}" th:if="${pageRequest.pageNumber > 0}">Next</a>
 
 </div>
 </body>
