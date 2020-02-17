@@ -5,7 +5,6 @@ import by.pochepko.hes.testapp.model.UserAccount;
 import by.pochepko.hes.testapp.service.CreatedUserAccountDtoValidator;
 import by.pochepko.hes.testapp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,8 +58,6 @@ public class UserAccountController {
         return "user";
     }
 
-
-
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
     public String getUserAccountDetails(@PathVariable final long id, final Model model) {
@@ -77,12 +74,11 @@ public class UserAccountController {
 
     @PostMapping(value = "/new")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-    public String createUserAccount(@ModelAttribute final UserAccountDto user, final BindingResult bindingResult, Model model) {
+    public String createUserAccount(@ModelAttribute final UserAccountDto user, final BindingResult bindingResult) {
         createdUserValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "new";
         }
-        model.addAttribute("pageRequest", PageRequest.of(0, 2));
         userAccountService.createUser(user);
         return "success";
 
