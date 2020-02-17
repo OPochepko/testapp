@@ -36,6 +36,11 @@ public class UserAccountController {
         return UserAccount.Status.values();
     }
 
+    @ModelAttribute(name = "totalCount")
+    public long getTotalCount() {
+        return userAccountService.getTotalCount();
+    }
+
     @ModelAttribute(name = "authority")
     public String getAuthority() {
         return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().toArray()[0].toString();
@@ -45,13 +50,10 @@ public class UserAccountController {
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
     public String getUserAccountsList(
             @RequestParam(required = false, defaultValue = "1") int page,
-            @RequestParam(required = false, defaultValue = "5") int size,
+            @RequestParam(required = false, defaultValue = "4") int size,
             Model model) {
-        long totalCount = userAccountService.getTotalCount();
-        int lastPage = getLastPageNum(totalCount, size);
         List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, size);
-
-        model.addAttribute("lastPage", lastPage);
+        model.addAttribute("size", size);
         model.addAttribute("currentPage", page);
         model.addAttribute("users", users);
         return "user";
@@ -76,9 +78,7 @@ public class UserAccountController {
     @PostMapping(value = "/new")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
     public String createUserAccount(@ModelAttribute final UserAccountDto user, final BindingResult bindingResult, Model model) {
-
         createdUserValidator.validate(user, bindingResult);
-
         if (bindingResult.hasErrors()) {
             return "new";
         }
@@ -92,7 +92,6 @@ public class UserAccountController {
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
     public String editUser(@PathVariable long id, final Model model) {
         model.addAttribute("user", userAccountService.getUserAccountById(id));
-
         return "edit";
     }
 
@@ -101,18 +100,12 @@ public class UserAccountController {
     public String updateUserAccount(@ModelAttribute(name = "user") UserAccountDto updatedUserAccountDto, @PathVariable long id, Model model, final BindingResult bindingResult) {
         updatedUserAccountDto.setPassword("mockpassword1");
         createdUserValidator.validate(updatedUserAccountDto, bindingResult);
-
         if (bindingResult.hasErrors()) {
             return "edit";
         }
-
-
         userAccountService.updateUserAccount(updatedUserAccountDto, id);
-
         return "success";
     }
 
-    private int getLastPageNum(long totalCount, int size) {
-        return (int) Math.ceil((float) totalCount / size);
-    }
+
 }
