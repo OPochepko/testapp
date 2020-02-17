@@ -5,7 +5,7 @@
     <title>Users</title>
 </head>
 <body>
-<div th:switch="${users}" th:with="lastPage =${totalCount/size} + ${((totalCount%size) > 0) ? 1 : 0}">
+<div th:switch="${users}" th:with="lastPage =${totalCount/size} - ${((totalCount%size) > 0) ? 0 : 1}">
     <h2 th:case="null">No users yet!</h2>
     <div th:case="*">
         <h2>Users</h2>
@@ -38,7 +38,7 @@
         </table>
     </div>
     <p th:if="${authority == 'ADMIN'}"><a href="/user/new" th:text="#{text.addNewUser}">Add a new user</a></p>
-    <a th:href="@{/user(page=${currentPage - 1},size=4)}" th:if="${currentPage > 1}"
+    <a th:href="@{/user(page=${currentPage - 1},size=4)}" th:if="${currentPage > 0}"
        th:text="#{text.previousPage}">Previous page</a>
     <a th:href="@{/user(page=${currentPage + 1},size=4)}" th:if="${currentPage < lastPage}"
        th:text="#{text.nextPage}">Next page</a>

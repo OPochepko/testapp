@@ -48,10 +48,10 @@ public class UserAccountController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
     public String getUserAccountsList(
-            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "4") int size,
             Model model) {
-        List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, size);
+        List<UserAccountDto> users = userAccountService.getUserAccountsList(page, size);
         model.addAttribute("size", size);
         model.addAttribute("currentPage", page);
         model.addAttribute("users", users);
