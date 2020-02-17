@@ -57,9 +57,7 @@ public class UserAccountController {
         return "user";
     }
 
-    private int getLastPageNum(long totalCount, int size) {
-        return (int) Math.ceil((float) totalCount / size);
-    }
+
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
@@ -114,4 +112,7 @@ public class UserAccountController {
         return "success";
     }
 
+    private int getLastPageNum(long totalCount, int size) {
+        return (int) Math.ceil((float) totalCount / size);
+    }
 }
