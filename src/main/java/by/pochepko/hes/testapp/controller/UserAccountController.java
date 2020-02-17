@@ -7,8 +7,6 @@ import by.pochepko.hes.testapp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,20 +24,9 @@ public class UserAccountController {
     @Autowired
     private CreatedUserAccountDtoValidator createdUserValidator;
 
-    @ModelAttribute(name = "authority")
-    public String getAuthority() {
-        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().toArray()[0].toString();
-    }
-
-
     @ModelAttribute(name = "roles")
     public UserAccount.Role[] getRoles() {
         return UserAccount.Role.values();
-    }
-
-    @ModelAttribute(name = "lastPage")
-    public int getLastPage() {
-        return userAccountService.getTotalPages(0, 2);
     }
 
     @ModelAttribute(name = "statuses")
@@ -47,18 +34,21 @@ public class UserAccountController {
         return UserAccount.Status.values();
     }
 
+    private int size = 2;
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
     public String getUserAccountsList(
             @RequestParam(required = false, defaultValue = "1") int page,
             Integer count,
             Model model) {
+        long totalCount = userAccountService.getTotalCount();
+        long lastPage = totalCount / size;
+        model.addAttribute("lastPage", lastPage);
         count = page;
         model.addAttribute("count", count);
-        List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, 2);
+        List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, size);
         model.addAttribute("users", users);
-
-
         return "user";
     }
 

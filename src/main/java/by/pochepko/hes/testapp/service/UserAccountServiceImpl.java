@@ -66,10 +66,8 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public int getTotalPages(int page, int size) {
-
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return userAccountRepository.findAll(pageRequest).getTotalPages();
+    public long getTotalCount() {
+        return userAccountRepository.count();
     }
 
 }

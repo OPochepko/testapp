@@ -36,5 +36,5 @@ public interface UserAccountService {
     List<UserAccountDto> getUserAccountsList(int page, int size);
 
 
-    int getTotalPages(int page, int size);
+    long getTotalCount();
 }
