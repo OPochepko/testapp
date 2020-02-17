@@ -10,7 +10,7 @@
 <p>-method-level authorization based on @PreAuthorize and @PostAuthorize
 <p>-data validation
 <p>-view based on Thymleaf
-<h3>Available users:<h3>
+<h3>Available users:</h3>
 <p>user password1  - has USER role
 <p>admin password1 - has ADMIN role
 
