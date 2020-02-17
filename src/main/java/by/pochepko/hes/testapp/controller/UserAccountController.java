@@ -48,13 +48,17 @@ public class UserAccountController {
             @RequestParam(required = false, defaultValue = "5") int size,
             Model model) {
         long totalCount = userAccountService.getTotalCount();
-        int lastPage = (int) Math.ceil((float) totalCount / size);
+        int lastPage = getLastPageNum(totalCount, size);
         List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, size);
 
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("users", users);
         return "user";
+    }
+
+    private int getLastPageNum(long totalCount, int size) {
+        return (int) Math.ceil((float) totalCount / size);
     }
 
     @GetMapping(value = "/{id}")
