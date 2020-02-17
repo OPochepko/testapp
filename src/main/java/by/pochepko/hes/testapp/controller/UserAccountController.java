@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,14 +72,14 @@ public class UserAccountController {
 
     @GetMapping(value = "/new")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String createUser(@Valid @ModelAttribute final UserAccountDto user) {
+    public String createUser(@ModelAttribute final UserAccountDto user) {
         return "new";
     }
 
 
     @PostMapping(value = "/new")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-    public String createUserAccount(@Valid @ModelAttribute final UserAccountDto user, final BindingResult bindingResult, Model model) {
+    public String createUserAccount(@ModelAttribute final UserAccountDto user, final BindingResult bindingResult, Model model) {
 
         createdUserValidator.validate(user, bindingResult);
 
