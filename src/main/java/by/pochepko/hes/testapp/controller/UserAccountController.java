@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -27,20 +26,9 @@ public class UserAccountController {
     @Autowired
     private CreatedUserAccountDtoValidator createdUserValidator;
 
-    @ModelAttribute(name = "authority")
-    public String getAuthority() {
-        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().toArray()[0].toString();
-    }
-
-
     @ModelAttribute(name = "roles")
     public UserAccount.Role[] getRoles() {
         return UserAccount.Role.values();
-    }
-
-    @ModelAttribute(name = "lastPage")
-    public int getLastPage() {
-        return userAccountService.getTotalPages(PageRequest.of(0, 5));
     }
 
     @ModelAttribute(name = "statuses")
@@ -48,20 +36,28 @@ public class UserAccountController {
         return UserAccount.Status.values();
     }
 
+    @ModelAttribute(name = "authority")
+    public String getAuthority() {
+        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().toArray()[0].toString();
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
     public String getUserAccountsList(
-            @RequestParam(required = false) Optional<Integer> page,
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "5") int size,
             Model model) {
-        PageRequest pageRequest = PageRequest.of(page.orElse(1) - 1, 2);
-        model.addAttribute("pageRequest", pageRequest);
+        long totalCount = userAccountService.getTotalCount();
+        int lastPage = getLastPageNum(totalCount, size);
+        List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, size);
 
-        List<UserAccountDto> users = userAccountService.findPaginated(pageRequest);
+        model.addAttribute("lastPage", lastPage);
+        model.addAttribute("currentPage", page);
         model.addAttribute("users", users);
-
-
         return "user";
     }
+
+
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
@@ -116,4 +112,7 @@ public class UserAccountController {
         return "success";
     }
 
+    private int getLastPageNum(long totalCount, int size) {
+        return (int) Math.ceil((float) totalCount / size);
+    }
 }

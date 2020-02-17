@@ -38,10 +38,9 @@
         </table>
     </div>
     <p th:if="${authority == 'ADMIN'}"><a href="/user/new" th:text="#{text.addNewUser}">Add a new user</a></p>
-
-    <a th:href="@{/user(page=${pageRequest.pageNumber})}" th:if="${pageRequest.pageNumber > 0} "
+    <a th:href="@{/user(page=${currentPage - 1},size=5)}" th:if="${currentPage > 1} "
        th:text="#{text.previousPage}">Previous page</a>
-    <a th:href="@{/user(page=${pageRequest.pageNumber + 2})}" th:if="${pageRequest.pageNumber < lastPage}"
+    <a th:href="@{/user(page=${currentPage + 1},size=5)}" th:if="${currentPage < lastPage}"
        th:text="#{text.nextPage}">Next page</a>
 
 
