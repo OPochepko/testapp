@@ -5,7 +5,7 @@
 <p>-USER can only view data
 
 <h3>The application has following features:</h3>
-<p>-RUD operations on whole data
+<p>-CRUD operations on data
 <p>-authentication with Spring Security
 <p>-method-level authorization based on @PreAuthorize and @PostAuthorize
 <p>-data validation
