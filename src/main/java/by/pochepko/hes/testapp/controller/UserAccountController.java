@@ -89,7 +89,7 @@ public class UserAccountController {
         }
         model.addAttribute("pageRequest", PageRequest.of(0, 2));
         userAccountService.createUser(user);
-        return "user";
+        return "success";
 
     }
 
@@ -103,8 +103,14 @@ public class UserAccountController {
 
     @PostMapping(value = "/{id}/edit")
     @PreAuthorize("hasAnyAuthority('ADMIN') ")
-    public String updateUserAccount(UserAccountDto updatedUserAccountDto, @PathVariable long id, Model model) {
-        model.addAttribute("user", updatedUserAccountDto);
+    public String updateUserAccount(@ModelAttribute(name = "user") UserAccountDto updatedUserAccountDto, @PathVariable long id, Model model, final BindingResult bindingResult) {
+        updatedUserAccountDto.setPassword("mockpassword1");
+        createdUserValidator.validate(updatedUserAccountDto, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "edit";
+        }
+
 
         userAccountService.updateUserAccount(updatedUserAccountDto, id);
 

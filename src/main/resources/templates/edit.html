@@ -6,6 +6,9 @@
 </head>
 <body>
 <form action="#" method="post" th:action="@{/user/{id}/edit (id=${user.id})}" th:object="${user}">
+    <ul>
+        <li th:text="${#fields.allErrors()}">Input is incorrect</li>
+    </ul>
     <label for="username">Username</label>
     <input id="username" placeholder="Username" th:field="*{username}" type="text">
     <label for="firstName">First name</label>

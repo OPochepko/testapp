@@ -31,11 +31,11 @@ public class CreatedUserAccountDtoValidator implements Validator {
             errors.rejectValue("password", "password.validation");
         }
 
-        if (user.getFirstName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("^[a-zA-Z]{1,16}$")) {
+        if (!user.getFirstName().matches("^[a-zA-Z]{1,16}$")) {
             errors.rejectValue("firstName", "firstName.validation");
         }
 
-        if (user.getLastName().length() < 1 || user.getFirstName().length() > 16 || !user.getFirstName().matches("^[a-zA-Z]{1,16}$")) {
+        if (!user.getLastName().matches("^[a-zA-Z]{1,16}$")) {
             errors.rejectValue("LastName", "lastName.validation");
         }
 
@@ -45,10 +45,6 @@ public class CreatedUserAccountDtoValidator implements Validator {
 
         if (user.getStatus() == null || !Arrays.stream(UserAccount.Status.values()).map(Enum::name).collect(Collectors.toList()).contains(user.getStatus())) {
             errors.rejectValue("status", "status.validation");
-        }
-
-        if (user.getCreatedAt() != null) {
-            errors.rejectValue("createdAt", "");
         }
 
 
