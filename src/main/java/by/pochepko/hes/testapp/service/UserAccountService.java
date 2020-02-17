@@ -1,7 +1,6 @@
 package by.pochepko.hes.testapp.service;
 
 import by.pochepko.hes.testapp.dto.UserAccountDto;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +11,6 @@ import java.util.List;
 
 @Service
 public interface UserAccountService {
-    /**
-     * @return all entities
-     */
-    List<UserAccountDto> getUserAccountList();
 
     /**
      * @param userAccount must not be null
@@ -37,17 +32,9 @@ public interface UserAccountService {
 
     void updateUserAccount(UserAccountDto userAccount, long id);
 
-    /**
-     * @param pageable must not be null
-     * @return List of all entities on page depending on given Pageable pageble
-     */
 
-    List<UserAccountDto> findPaginated(Pageable pageable);
+    List<UserAccountDto> getUserAccountsList(int page, int size);
 
-    /**
-     * @param pageable
-     * @return number of available pages of entities
-     */
 
-    int getTotalPages(Pageable pageable);
+    int getTotalPages(int page, int size);
 }

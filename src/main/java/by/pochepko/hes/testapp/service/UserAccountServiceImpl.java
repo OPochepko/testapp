@@ -5,14 +5,13 @@ import by.pochepko.hes.testapp.mapper.UserAccountDtoMapper;
 import by.pochepko.hes.testapp.model.UserAccount;
 import by.pochepko.hes.testapp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -30,12 +29,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         this.userAccountDtoMapper = userAccountDtoMapper;
     }
 
-    @Override
-    public List<UserAccountDto> getUserAccountList() {
-        return StreamSupport.stream(userAccountRepository.findAll().spliterator(), true)
-                .map(userAccountDtoMapper::modelToDto)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public UserAccountDto createUser(UserAccountDto userAccount) {
@@ -64,15 +57,19 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public List<UserAccountDto> findPaginated(Pageable pageable) {
-        return userAccountRepository.findAll(pageable).getContent().stream()
+    public List<UserAccountDto> getUserAccountsList(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return userAccountRepository.findAll(pageRequest).getContent().stream()
                 .map(userAccountDtoMapper::modelToDto)
                 .collect(Collectors.toList())
                 ;
     }
 
-    public int getTotalPages(Pageable pageable) {
-        return userAccountRepository.findAll(pageable).getTotalPages();
+    @Override
+    public int getTotalPages(int page, int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return userAccountRepository.findAll(pageRequest).getTotalPages();
     }
 
 }

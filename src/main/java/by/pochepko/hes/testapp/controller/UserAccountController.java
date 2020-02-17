@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -40,7 +39,7 @@ public class UserAccountController {
 
     @ModelAttribute(name = "lastPage")
     public int getLastPage() {
-        return userAccountService.getTotalPages(PageRequest.of(0, 5));
+        return userAccountService.getTotalPages(0, 2);
     }
 
     @ModelAttribute(name = "statuses")
@@ -51,12 +50,12 @@ public class UserAccountController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER','ADMIN') ")
     public String getUserAccountsList(
-            @RequestParam(required = false) Optional<Integer> page,
+            @RequestParam(required = false, defaultValue = "1") int page,
+            Integer count,
             Model model) {
-        PageRequest pageRequest = PageRequest.of(page.orElse(1) - 1, 2);
-        model.addAttribute("pageRequest", pageRequest);
-
-        List<UserAccountDto> users = userAccountService.findPaginated(pageRequest);
+        count = page;
+        model.addAttribute("count", count);
+        List<UserAccountDto> users = userAccountService.getUserAccountsList(page - 1, 2);
         model.addAttribute("users", users);
 
 
