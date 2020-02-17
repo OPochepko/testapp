@@ -1,6 +1,6 @@
-<h2>Testapp is simple web app for user administration.<h2>
+<h2>Testapp is simple web app for user administration.</h2>
 
-<p>Roles:</p>
+<h3>Roles:</h3>
 <p>-ADMIN has full permission on all methods
 <p>-USER can only view data
 
