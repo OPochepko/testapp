@@ -17,11 +17,12 @@
     <input id="lastName" placeholder="Last Name" th:field="*{lastName}" type="text">
     <label for="role">Role</label>
     <select id="role" th:field="*{role}" type="text">
-        <option th:each="userrole : ${roles}" th:text="${userrole}" th:value="${userrole}"></option>
+        <option th:each="userrole : ${roles}" th:text="#{'user.role.'+${userrole}}" th:value="${userrole}"></option>
     </select>
     <label for="status">Status</label>
     <select id="status" th:field="*{status}" type="text">
-        <option th:each="userstatus : ${statuses}" th:text="${userstatus}" th:value="${userstatus}"></option>
+        <option th:each="userstatus : ${statuses}" th:text="#{'user.status.'+${userstatus}}"
+                th:value="${userstatus}"></option>
     </select>
     <input type="submit" value="Save">
 </form>
