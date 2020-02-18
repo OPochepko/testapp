@@ -2,32 +2,32 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>New User</title>
+    <title th:text="#{text.newuser}">New User</title>
 </head>
 <body>
 <form action="#" method="post" th:action="@{/user/new}" th:object="${userAccountDto}">
     <ul>
         <li th:if="${#fields.hasErrors()}" th:text="${#fields.allErrors()}">Input is incorrect</li>
     </ul>
-    <label for="username">Username</label>
-    <input id="username" placeholder="Username" th:field="*{username}" type="text"/>
-    <label for="password">Username</label>
-    <input id="password" placeholder="3-16 length" th:field="*{password}" type="text"/>
-    <label for="firstName">First name</label>
-    <input id="firstName" placeholder="First name" th:field="*{firstName}" type="text"/>
-    <label for="lastName">Last Name</label>
-    <input id="lastName" placeholder="Last Name" th:field="*{lastName}" type="text"/>
-    <label for="role">Role</label>
+    <label for="username" th:text="#{text.username}">Username</label>
+    <input id="username" th:field="*{username}" th:placeholder="#{text.username}" type="text"/>
+    <label for="password" th:text="#{text.password}">Password</label>
+    <input id="password" th:field="*{password}" th:placeholder="#{text.password}" type="text"/>
+    <label for="firstName" th:text="#{text.firstName}">First name</label>
+    <input id="firstName" th:field="*{firstName}" th:placeholder="#{text.firstName}" type="text"/>
+    <label for="lastName" th:text="#{text.lastName}">Last Name</label>
+    <input id="lastName" th:field="*{lastName}" th:placeholder="#{text.lastName}" type="text"/>
+    <label for="role" th:text="#{text.role}">Role</label>
     <select id="role" th:field="*{role}" type="text">
         <option th:each="userrole : ${roles}" th:text="#{'user.role.'+${userrole}}" th:value="${userrole}"></option>
     </select>
-    <label for="status">Status</label>
+    <label for="status" th:text="#{text.status}">Status</label>
     <select id="status" th:field="*{status}" type="text">
         <option th:each="userstatus : ${statuses}" th:text="#{'user.status.'+${userstatus}}"
                 th:value="${userstatus}"></option>
     </select>
 
-    <input type="submit" value="Add User">
+    <input th:value="#{text.save}" type="submit">
 
 
 </form>
