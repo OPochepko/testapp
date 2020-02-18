@@ -2,19 +2,19 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>View</title>
+    <title th:text="#{text.view}">View</title>
 </head>
 <body>
 <table>
     <thead>
     <tr>
-        <th>Username</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Created At</th>
-        <th>Edit</th>
+        <th th:text="#{text.username}">Username</th>
+        <th th:text="#{text.firstName}">First Name</th>
+        <th th:text="#{text.lastName}">Last Name</th>
+        <th th:text="#{text.role}">Role</th>
+        <th th:text="#{text.status}">Status</th>
+        <th th:text="#{text.createdAt}">Created At</th>
+        <th th:if="${authority == 'ADMIN'}">Edit</th>
     </tr>
     </thead>
     <tbody>
@@ -22,10 +22,11 @@
         <td th:text="${user.username}"></td>
         <td th:text="${user.firstName}"></td>
         <td th:text="${user.lastName}"></td>
-        <td th:text="${user.role}"></td>
-        <td th:text="${user.status}"></td>
+        <td th:text="#{'user.role.'+${user.role}}"></td>
+        <td th:text="#{'user.status.'+${user.status}}"></td>
         <td th:text="${user.createdAt}"></td>
-        <td><a th:href="@{/user/{id}/edit(id=${user.id})}">Edit</a></td>
+        <td th:if="${authority == 'ADMIN'}"><a th:href="@{/user/{id}/edit(id=${user.id})}"
+                                               th:text="#{text.edit}">Edit</a></td>
     </tr>
     </tbody>
 </table>
