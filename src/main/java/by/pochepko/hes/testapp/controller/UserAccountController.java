@@ -6,8 +6,6 @@ import by.pochepko.hes.testapp.service.CreatedUserAccountDtoValidator;
 import by.pochepko.hes.testapp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,11 +36,6 @@ public class UserAccountController {
     @ModelAttribute(name = "totalCount")
     public long getTotalCount() {
         return userAccountService.getTotalCount();
-    }
-
-    @ModelAttribute(name = "authority")
-    public String getAuthority() {
-        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().toArray()[0].toString();
     }
 
     @GetMapping
