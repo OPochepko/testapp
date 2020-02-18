@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{text.view}">View</title>
@@ -14,7 +14,7 @@
         <th th:text="#{text.role}">Role</th>
         <th th:text="#{text.status}">Status</th>
         <th th:text="#{text.createdAt}">Created At</th>
-        <th th:if="${authority == 'ADMIN'}">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN')">Edit</th>
     </tr>
     </thead>
     <tbody>
@@ -25,8 +25,8 @@
         <td th:text="#{'user.role.'+${user.role}}"></td>
         <td th:text="#{'user.status.'+${user.status}}"></td>
         <td th:text="${user.createdAt}"></td>
-        <td th:if="${authority == 'ADMIN'}"><a th:href="@{/user/{id}/edit(id=${user.id})}"
-                                               th:text="#{text.edit}">Edit</a></td>
+        <td sec:authorize="hasAnyAuthority('ADMIN')"><a th:href="@{/user/{id}/edit(id=${user.id})}"
+                                                        th:text="#{text.edit}">Edit</a></td>
     </tr>
     </tbody>
 </table>
