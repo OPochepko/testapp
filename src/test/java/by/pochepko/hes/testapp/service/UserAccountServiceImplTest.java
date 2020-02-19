@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,23 +38,23 @@ class UserAccountServiceImplTest {
     private UserAccountServiceImpl sut = new UserAccountServiceImpl(userAccountDtoMapper);
 
 
-    @Test
-    void getUserAccountList_userAccountMappedFromEntityShouldBeEqualToUserAccountDto() {
-        // given
-        UserAccount user = new UserAccount();
-        UserAccountDto userAccountDto = new UserAccountDto();
-
-        Iterable<UserAccount> users = new ArrayList<>(Arrays.asList(user));
-        when(userAccountRepository.findAll()).thenReturn(users);
-        when(userAccountDtoMapper.modelToDto(any(UserAccount.class))).thenReturn(userAccountDto);
-
-        //when
-        List<UserAccountDto> userDtos = sut.getUserAccountList();
-        //then
-        assertThat(userDtos.size()).isEqualTo(1);
-        assertThat(userDtos.get(0)).isEqualTo(userAccountDto);
-
-    }
+//    @Test
+//    void getUserAccountList_userAccountMappedFromEntityShouldBeEqualToUserAccountDto() {
+//        // given
+//        UserAccount user = new UserAccount();
+//        UserAccountDto userAccountDto = new UserAccountDto();
+//
+//        Iterable<UserAccount> users = new ArrayList<>(Arrays.asList(user));
+//        when(userAccountRepository.findAll()).thenReturn(users);
+//        when(userAccountDtoMapper.modelToDto(any(UserAccount.class))).thenReturn(userAccountDto);
+//
+//        //when
+//        List<UserAccountDto> userDtos = sut.getUserAccountList();
+//        //then
+//        assertThat(userDtos.size()).isEqualTo(1);
+//        assertThat(userDtos.get(0)).isEqualTo(userAccountDto);
+//
+//    }
 
     @Test
     void createUser_givenNewUserAccountDto_PasswordShouldBeEncodedBeforeSave() {
